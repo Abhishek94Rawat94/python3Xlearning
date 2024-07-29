@@ -4,6 +4,21 @@ import allure
 import pytest
 import requests
 
+@pytest.fixture()
+def create_token():
+    base_url = "https://restful-booker.herokuapp.com"
+    base_path = "/auth"
+    post_url = base_url + base_path
+    headers = headers = {"Content-Type": "application/json"}
+    json_payload = {
+        "username": "admin",
+        "password": "password123"
+    }
+    response = requests.post(url=post_url, headers=headers, json=json_payload)
+    assert response.status_code == 200
+    token = response.json()["token"]
+    print(token)
+    return token
 
 @pytest.fixture()
 @allure.title("Create a new booking")
